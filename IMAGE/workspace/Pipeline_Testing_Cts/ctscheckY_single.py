@@ -246,5 +246,8 @@ def test():
             with open(f'/home/{UsrName}/Desktop/IMAGE/workspace/Pipeline_Testing_Cts/retry1.sh','w')as f:       
                 f.write("run retry --retry "+str(session)+" "+cmd+'\n')
             f.close()
+            with open(f'/home/{UsrName}/Desktop/IMAGE/workspace/Pipeline_Testing_Cts/notexecutretry1.sh','w')as f:       
+                f.write("run retry --retry "+str(session)+" "+"--retry-type NOT_EXECUTED "+cmd+'\n')
+            f.close()
     retry(session,'y')
     return ans
