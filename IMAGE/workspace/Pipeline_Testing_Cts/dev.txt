@@ -1,0 +1,5 @@
+List of devices attached
+212555225E0147	device
+212895225E0056	device
+213405225E0339	device
+

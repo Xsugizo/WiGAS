@@ -1,0 +1,10 @@
+                                                   (bootloader) Verity mode: true
+(bootloader) Device unlocked: true
+(bootloader) Device critical unlocked: true
+(bootloader) Charger screen enabled: false
+(bootloader) Main Board SN: 15506201DA2314100091KSSA
+(bootloader) Device SN: S212895225E0056
+(bootloader) SKU: 106
+(bootloader) Secure boot: false
+OKAY [  0.003s]
+Finished. Total time: 0.003s
