@@ -104,44 +104,48 @@ def start():
     reboot_num=runfre[1]
     reset_num=runfre[2]
     notexecuteset_num=runfre[3]
-    tk.messagebox.askokcancel(title=None, message="請確認retry, reboot factoryRest and Not Executed 次數是否正確 retry_num="+retry_num+" reboot_num="+reboot_num+" reset_num="+reset_num+" notexecuteset_num="+notexecuteset_num)
-    
-    with open('record_disconnect.txt','r+') as a:
-        a.truncate(0)
-        # root.destroy()
-    with open(f'/home/{UsrName}/Desktop/IMAGE/workspace/RecordOption.txt','r')as f:
-        r = f.read().split('/')
-    print(r)
-    if 'cts' in r:
-        dirpath = f'/home/{UsrName}/Desktop/IMAGE/'
-        for root,dirs,files in os.walk(dirpath):
-            for dir in dirs:
-                if dir.find("Pipeline_Testing_Cts")!=-1:
-                    print(os.path.join(root,dir))
-                    dirpath = os.path.join(root,dir)
-                    print(dirpath)
-                    os.chdir(dirpath)
-                    os.system('./jen_single.sh')
-    elif 'gts' in r:
-        dirpath = f'/home/{UsrName}/Desktop/IMAGE/'
-        for root,dirs,files in os.walk(dirpath):
-            for dir in dirs:
-                if dir.find("Pipeline_Testing_Gts")!=-1:
-                    print(os.path.join(root,dir))
-                    dirpath = os.path.join(root,dir)
-                    print(dirpath)
-                    os.chdir(dirpath)
-                    os.system('./jen.sh')
-    elif 'sts' in r:
-        dirpath = f'/home/{UsrName}/Desktop/IMAGE/'
-        for root,dirs,files in os.walk(dirpath):
-            for dir in dirs:
-                if dir.find("Pipeline_Testing_Sts")!=-1:
-                    print(os.path.join(root,dir))
-                    dirpath = os.path.join(root,dir)
-                    print(dirpath)
-                    os.chdir(dirpath)
-                    os.system('./jen.sh')
+    com=tk.messagebox.askokcancel(title=None, message="請確認retry, reboot factoryRest and Not Executed 次數是否正確 retry_num="+str(retry_num)+" reboot_num="+str(reboot_num)+" reset_num="+str(reset_num)+" notexecuteset_num="+str(notexecuteset_num))
+    print(com)
+    if (com==True):
+        print ("start test")
+        with open('record_disconnect.txt','r+') as a:
+            a.truncate(0)
+            # root.destroy()
+        with open(f'/home/{UsrName}/Desktop/IMAGE/workspace/RecordOption.txt','r')as f:
+            r = f.read().split('/')
+        print(r)
+        if 'cts' in r:
+            dirpath = f'/home/{UsrName}/Desktop/IMAGE/'
+            for root,dirs,files in os.walk(dirpath):
+                for dir in dirs:
+                    if dir.find("Pipeline_Testing_Cts")!=-1:
+                        print(os.path.join(root,dir))
+                        dirpath = os.path.join(root,dir)
+                        print(dirpath)
+                        os.chdir(dirpath)
+                        os.system('./jen_single.sh')
+        elif 'gts' in r:
+            dirpath = f'/home/{UsrName}/Desktop/IMAGE/'
+            for root,dirs,files in os.walk(dirpath):
+                for dir in dirs:
+                    if dir.find("Pipeline_Testing_Gts")!=-1:
+                        print(os.path.join(root,dir))
+                        dirpath = os.path.join(root,dir)
+                        print(dirpath)
+                        os.chdir(dirpath)
+                        os.system('./jen.sh')
+        elif 'sts' in r:
+            dirpath = f'/home/{UsrName}/Desktop/IMAGE/'
+            for root,dirs,files in os.walk(dirpath):
+                for dir in dirs:
+                    if dir.find("Pipeline_Testing_Sts")!=-1:
+                        print(os.path.join(root,dir))
+                        dirpath = os.path.join(root,dir)
+                        print(dirpath)
+                        os.chdir(dirpath)
+                        os.system('./jen.sh')
+    else:
+        pass
 
 
     # with open(f'/home/{UsrName}/Desktop/IMAGE/workspace/RecordTestOption.txt','r')as f:
