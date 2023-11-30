@@ -118,7 +118,7 @@ def start():
                         dirpath = os.path.join(root,dir)
                         print(dirpath)
                         os.chdir(dirpath)
-                        os.system('./jen_single.sh')
+                        os.system('./jen_single_final.sh')
         elif 'gts' in r:
             dirpath = f'/home/{UsrName}/Desktop/IMAGE/'
             for root,dirs,files in os.walk(dirpath):
