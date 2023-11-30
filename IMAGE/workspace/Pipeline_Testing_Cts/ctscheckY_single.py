@@ -213,8 +213,9 @@ def test():
         for i in adb_devices.split(b"\tdevice"):
             for ii in i.split(b"\n"):
                 if  ii != b"" and ii not in b"List of devices attached" :
-                    x = ii.decode("utf-8")
-                    devices.append(x)
+                    if b"\tunauthorized" not in ii and b"\toffline" not in ii :
+                        x = ii.decode("utf-8")
+                        devices.append(x)
         coun=str(len(devices))
 
                 
