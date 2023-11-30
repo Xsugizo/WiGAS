@@ -160,7 +160,12 @@ def start():
 #         for _ in range(16000):
 #             time.sleep(.001)
 #             bar()
-
+def update_code():
+    cwd = '/IMAGE'
+    command = 'git pull https://github.com/Xsugizo/WiGAS.git'
+    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, cwd=cwd)
+    output, unused_err = process.communicate()
+    print(output)
 
 def close_window():
     root.destroy()
@@ -377,8 +382,8 @@ button1.pack(side=tk.LEFT)
 button2 = tk.Button(button_frame, text="Quit",command=close_window, width=9)
 button2.pack(side=tk.LEFT)
 
-# button2 = tk.Button(button_frame, text="Update",command=close_window, width=9)
-# button2.pack(side=tk.LEFT)
+button2 = tk.Button(button_frame, text="Update",command=update_code, width=9)
+button2.pack(side=tk.LEFT)
 
 root.mainloop()
 
