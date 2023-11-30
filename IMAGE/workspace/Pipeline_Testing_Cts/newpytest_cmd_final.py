@@ -385,29 +385,28 @@ retry = 1
 with open(f'/home/{UsrName}/Desktop/IMAGE/workspace/RecordTestOption.txt','r')as f:
     testoption = f.read().split('/')
 print("testoption= "+str(testoption))
-if 'retry' in testoption:
-    count = 1
-elif 'reboot' in testoption:
-    count = 1
-elif 'factoryreset' in testoption:
+if 'est' in testoption:
     count = 1
 else:
     count = 0
 if(count==1): # gen cmd for retry for retry, reboot and   
     print("test")
     retry = test()
+    print("retry="+str(retry))
     print("retry_command")
     r1 = retry_command()
     print("r1=" +r1)
+    r2 = notexecutretry_command()
+    print("r2=" +r2)
 else:
     r1 = ''
 
 while (retry==1):
 
     os.chdir(f'/home/{UsrName}/Desktop/IMAGE/workspace/Pipeline_Testing_Cts') #ensure the path is correct
-    print("count="+str(count)+" retry_num="+str(retry_num)+" reboot_num="+str(reboot_num)+" reset_num="+ str(reset_num))
+    print("count="+str(count)+" retry_num="+str(retry_num)+" reboot_num="+str(reboot_num)+" reset_num="+ str(reset_num)+"notexecuteset_num="+ str(notexecuteset_num))
 
-    if (count<retry_num+reboot_num+1): #retry+reboot time
+    if (count<retry_num+reboot_num+notexecuteset_num+1): #retry+reboot time
         if (count == 0): #run cts first time
             # first(cts)
             print("get_latestfolder")
@@ -426,7 +425,7 @@ while (retry==1):
             print("retry_command")
             r1 = retry_command()
             os.kill(pid, signal.SIGTERM)
-            print(" count="+str(count)+" retry_num="+str(retry_num)+" reboot_num="+str(reboot_num))
+            print(" count="+str(count)+" retry_num="+str(retry_num)+" reboot_num="+str(reboot_num)+"notexecuteset_num="+ str(notexecuteset_num))
         elif (count < retry_num+1): # check retry run how many times
             # retry_time(r1)
             print("get_latestfolder")
@@ -441,7 +440,7 @@ while (retry==1):
             r1 = retry_command()
             r2 = notexecutretry_command()
             os.kill(pid, signal.SIGTERM)
-            print(" count="+str(count)+" retry_num="+str(retry_num)+" reboot_num="+str(reboot_num))
+            print(" count="+str(count)+" retry_num="+str(retry_num)+" reboot_num="+str(reboot_num)+"notexecuteset_num="+ str(notexecuteset_num))
         elif (count < notexecuteset_num+1): # check retry run how many times
             # retry_time(r1)
             print("get_latestfolder")
@@ -455,7 +454,7 @@ while (retry==1):
             retry = test()
             r1 = retry_command()
             os.kill(pid, signal.SIGTERM)
-            print(" count="+str(count)+" retry_num="+str(retry_num)+" reboot_num="+str(reboot_num))
+            print(" count="+str(count)+" retry_num="+str(retry_num)+" reboot_num="+str(reboot_num)+"notexecuteset_num="+ str(notexecuteset_num))
         else: #check reboot run how many times 
             # reboot_time(r1)
             print("get_latestfolder")
@@ -469,9 +468,9 @@ while (retry==1):
             retry = test()
             r1 = retry_command()
             os.kill(pid, signal.SIGTERM)
-            print(" count="+str(count)+" retry_num="+str(retry_num)+" reboot_num="+str(reboot_num))
+            print(" count="+str(count)+" retry_num="+str(retry_num)+" reboot_num="+str(reboot_num)+"notexecuteset_num="+ str(notexecuteset_num))
 
-    elif (count<retry_num+reboot_num+reset_num+1): #factory reset and retry
+    elif (count<retry_num+reboot_num+notexecuteset_num+reset_num+1): #factory reset and retry
         # action=input("factory reset continue or not [y/n]...")
         # action=action.lower()
         # if action=='y':
