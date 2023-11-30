@@ -220,7 +220,7 @@ frame = tk.Frame(root)
 frame.pack()
 
 # 創建標籤並添加到框架中
-label = tk.Label(frame, text="GMS Auto Test w/ Single Test", font = ('Bahnschrift',20,'bold'),pady=10)
+label = tk.Label(frame, text="GMS Auto Test w/ Single Test V1", font = ('Bahnschrift',20,'bold'),pady=10)
 label.pack(side=tk.TOP)
 
 # 創建一個框架
