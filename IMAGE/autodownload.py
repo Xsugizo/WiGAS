@@ -31,4 +31,7 @@ os.system('sudo apt install python3-tk')
 print('Download tqdm')
 os.system('sudo apt install python3-tqdm')
 
+print('Download Beautifulsoup')
+os.system('sudo apt install python3-bs4')
+
 print('All download done')
