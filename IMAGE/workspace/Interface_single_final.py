@@ -168,6 +168,7 @@ def update_code():
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, cwd=cwd)
     output, unused_err = process.communicate()
     print(output)
+    root.destroy()
 
 def close_window():
     root.destroy()
