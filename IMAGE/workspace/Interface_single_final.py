@@ -168,7 +168,7 @@ def close_window():
 root = tk.Tk()
 root.title("WiGAS")
 root.resizable(False, False)
-root.geometry('530x400')
+root.geometry('590x400')
 try:
     with open('CtsToolPath.txt','r') as f:
         CtsToolPath = f.read()
