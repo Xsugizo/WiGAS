@@ -43,7 +43,7 @@ msg.attach(html_part)
 
 # 登錄SMTP服務器
 smtp_username = 'Ian_H_Chang@wistron.com'
-smtp_password = 'Bk2Xt6jb111!'
+smtp_password = 'Bk2Xt6jb222!'
 smtp_obj = smtplib.SMTP(smtp_server, smtp_port)
 smtp_obj.starttls()
 smtp_obj.login(smtp_username, smtp_password)
