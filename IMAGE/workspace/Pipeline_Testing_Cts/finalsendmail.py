@@ -23,7 +23,7 @@ subject = 'WiGAS Final Report'
 # 創建MIMEMultipart對象，並設置發件人、收件人、主題
 msg = MIMEMultipart()
 msg['From'] = from_addr
-msg['To'] = to_addr
+msg['To'] = ','.join(to_addr)
 msg['Subject'] = subject
 
 with open(f'{dirpath}/android-cts/output.html', 'rb') as f:
