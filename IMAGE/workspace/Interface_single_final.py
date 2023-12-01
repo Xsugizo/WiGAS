@@ -164,9 +164,9 @@ def update_code():
     cwd = os.getcwd()
     cwd=cwd.split('/workspace')
     command = 'git stash'
-    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, cwd=cwd)    
+    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, cwd=cwd[0])    
     command = 'git pull https://github.com/Xsugizo/WiGAS.git'
-    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, cwd=cwd)
+    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, cwd=cwd[0])
     output, unused_err = process.communicate()
     print(output)
     root.destroy()
