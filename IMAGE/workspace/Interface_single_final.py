@@ -162,7 +162,7 @@ def start():
 #             bar()
 def update_code():
     cwd = os.getcwd()
-    cwd=cwd.split(/workspace)
+    cwd=cwd.split('/workspace')
     command = 'git stash'
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, cwd=cwd)    
     command = 'git pull https://github.com/Xsugizo/WiGAS.git'
