@@ -299,4 +299,3 @@ def test():
     return ans
 
 
-test()
