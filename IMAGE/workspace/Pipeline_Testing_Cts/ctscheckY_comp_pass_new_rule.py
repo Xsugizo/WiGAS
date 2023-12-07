@@ -14,6 +14,7 @@ globalvar.initialize()
 dirpath = globalvar.path
 CurrPath=os.getcwd()
 ParetPath=os.path.dirname(CurrPath)
+print("CheckY CurrPath="+str(CurrPath)+"CheckY ParetPath="+str(ParetPath))
 
 
 def test():
@@ -117,18 +118,49 @@ def test():
         fail_num =[]
         pass_num =[]
         s_num = []
-
+        
+        productname= subprocess.check_output(["adb","shell","getprop","ro.product.name"])
+        finngerprint= subprocess.check_output(["adb","shell","getprop","ro.system.build.id"])
+        productname=productname.split(b"\n")
+        productname=productname[0].decode("utf-8")
+        finngerprint=finngerprint.split(b"\n")
+        finngerprint=finngerprint[0].decode("utf-8")
+        # print(productname,finngerprint)
+        target=finngerprint+"_"+productname
+        print("target="+target)
+        print(len(image))
         #count the project and image in l r list
-        for i in range(len(image)):
+        for i in range(len(image)-1,0,-1):
             project_name = image[i]+"_"+devices[i]
-
-            if(len(test_count)==0):
-                test_count.insert(pro_num,project_name)
+            # print("project_name="+project_name)
+            if(project_name==target):
+                test_count.insert(pro_num,image[i]+"_"+devices[i])
                 project_count.insert(pro_num,count_num)
                 fail_num.insert(pro_num,fail[i])
                 pass_num.insert(pro_num,test_pass[i])
                 s_num.insert(pro_num,session[i])
-                pro_num +=1
+                break
+            else:
+                continue
+        for i in range(len(image)-1,0,-1):
+            project_name = image[i]+"_"+devices[i]
+
+            # if(len(test_count)==0):
+            #     test_count.insert(pro_num,project_name)
+            #     project_count.insert(pro_num,count_num)
+            #     fail_num.insert(pro_num,fail[i])
+            #     pass_num.insert(pro_num,test_pass[i])
+            #     s_num.insert(pro_num,session[i])
+            #     pro_num +=1
+            #     continue
+
+            if(len(test_count)==0):
+                # test_count.insert(pro_num,image[-1]+"_"+devices[-1])
+                # project_count.insert(pro_num,count_num)
+                # fail_num.insert(pro_num,fail[-1])
+                # pass_num.insert(pro_num,test_pass[-1])
+                # s_num.insert(pro_num,session[-1])
+                # pro_num +=1
                 continue
 
             for j in range(len(test_count)):
@@ -144,13 +176,13 @@ def test():
                     break
 
 
-                elif(j == len(test_count)-1):
-                    test_count.insert(pro_num,project_name)
-                    project_count.insert(pro_num,count_num)
-                    fail_num.insert(pro_num,fail[i])
-                    pass_num.insert(pro_num,test_pass[i])
-                    s_num.insert(pro_num,session[i])
-                    pro_num +=1   
+                # elif(j == len(test_count)-1):
+                #     test_count.insert(pro_num,project_name)
+                #     project_count.insert(pro_num,count_num)
+                #     fail_num.insert(pro_num,fail[i])
+                #     pass_num.insert(pro_num,test_pass[i])
+                #     s_num.insert(pro_num,session[i])
+                #     pro_num +=1   
 
         print("test_count="+str(test_count)+"project_count="+str(project_count)+"fail_num="+str(fail_num)+"s_num="+str(s_num)+"pass_num="+str(pass_num))
         return test_count,project_count,fail_num,s_num,pass_num
@@ -177,15 +209,32 @@ def test():
         #print(fail_gap)
         return fail_gap
     
-    def retry_or_not_retry(fail,test_moudle,test_result):
+    def retry_or_not_retry(fail,test_moudle,test_result,image,devices):
 
-        print("test_moudle[-1]="+str(test_moudle[-1])+"test_result[-1]="+str(test_result[-1])+"fail="+str(fail[-1]))
-        if (test_moudle[-1]==test_result[-1] and fail[-1]==0):
-            print("stop_retry")
-            return "stop_retry"
-        else:
-            print("keep_retry")
-            return "keep_retry"
+        productname= subprocess.check_output(["adb","shell","getprop","ro.product.name"])
+        finngerprint= subprocess.check_output(["adb","shell","getprop","ro.system.build.id"])
+        productname=productname.split(b"\n")
+        productname=productname[0].decode("utf-8")
+        finngerprint=finngerprint.split(b"\n")
+        finngerprint=finngerprint[0].decode("utf-8")
+        target=finngerprint+"_"+productname
+        
+        for i in range(len(image)-1,0,-1):
+
+            project_name = image[i]+"_"+devices[i]
+            # print("retry_or_not_retry project_name="+project_name)
+
+            # print("test_moudle[-1]="+str(test_moudle[-1])+"test_result[-1]="+str(test_result[-1])+"fail="+str(fail[-1]))
+            if(project_name==target):
+                if (test_moudle[i]==test_result[i] and fail[i]==0):
+                    print("stop_retry")
+                    return "stop_retry"
+                else:
+                    print("keep_retry")
+                    return "keep_retry"
+                break
+            else:
+                continue
 
 
 
@@ -200,7 +249,7 @@ def test():
     print("t_count="+str(t_count)+"p_count="+str(p_count)+"f_count="+str(f_count)+"s_num="+str(s_num)+"pass_num="+str(pass_num))
 
     gap = fail_gap(t_count,test_fail,test_image,test_devices)
-    goornogo = retry_or_not_retry(test_fail,test_moudle,test_result)
+    goornogo = retry_or_not_retry(test_fail,test_moudle,test_result,test_image,test_devices)
 
     print("gap="+str(gap))
 
@@ -297,5 +346,6 @@ def test():
         f.close()
     retry(session,'y')
     return ans
+
 
 
