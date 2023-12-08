@@ -172,39 +172,47 @@ def check_github_status():
     repo_owner = 'Xsugizo'  # Replace with the repository owner's username
     repo_name = 'WiGAs'  # Replace with the repository name
     file_path = '/home/logo113/Desktop/IMAGE/'  # Replace with the path to the file in the repository
+    api_url="https://api.github.com/repos/Xsugizo/WiGAS"
+
+    all_info=requests.get(api_url).json()
+    last_updated=time.mktime(time.strptime(all_info["pushed_at"],"%Y-%m-%dT%H:%M:%SZ"))
 
 
-    # GitHub access token (optional but might be needed for private repositories or to avoid rate limits)
-    access_token = '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'  # Replace with your GitHub access token
+    # # GitHub access token (optional but might be needed for private repositories or to avoid rate limits)
+    # access_token = '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'  # Replace with your GitHub access token
 
-    # Initialize Github object
-    if access_token:
-        g = Github(access_token)
-    else:
-        g = Github()
+    # # Initialize Github object
+    # if access_token:
+    #     g = Github(access_token)
+    # else:
+    #     g = Github()
 
-    # Get the repository
-    repo = g.get_repo(f"{repo_owner}/{repo_name}")
-
-    last_updated = repo.pushed_at
+    # # Get the repository
+    # # repo = g.get_repo(f"{repo_owner}/{repo_name}")
 
 
-    path = r"/home/logo113/Desktop/git/IMAGE/"
+    # last_updated = repo.pushed_at
+
+
+    path = r"/home/logo113/Desktop/git/IMAGE/workspace/"
  
     ti_m = os.path.getmtime(path)
     
+    
     m_ti = time.ctime(ti_m)
+    ml_ti = time.ctime(last_updated)
     
     # Using the timestamp string to create a 
     # time object/structure
     t_obj = time.strptime(m_ti)
-
+    la_obj = time.strptime(ml_ti)
     # Transforming the time object to a timestamp 
     # of ISO 8601 format
     T_stamp = time.strftime("%Y-%m-%d %H:%M:%S", t_obj)
+    L_stamp = time.strftime("%Y-%m-%d %H:%M:%S", la_obj)
     print(f"The file located at the path {path} was last modified at {T_stamp}")
-    print(f"Github Last updated: {last_updated}")
-    if str(last_updated)>T_stamp:
+    print(f"Github Last updated: {L_stamp}")
+    if L_stamp>T_stamp:
         print("update")
         return "update"
         
