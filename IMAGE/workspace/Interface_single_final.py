@@ -9,7 +9,12 @@ from time import sleep
 from tqdm import tqdm
 from alive_progress import alive_bar
 import subprocess
+import time
 from tkinter import messagebox
+from github import Github
+import requests
+from optparse import OptionParser
+import re
 
 UsrName = subprocess.check_output('whoami')
 UsrName = UsrName.decode().strip()
@@ -160,6 +165,55 @@ def start():
 #         for _ in range(16000):
 #             time.sleep(.001)
 #             bar()
+def check_github_status():
+
+
+    # GitHub repository details
+    repo_owner = 'Xsugizo'  # Replace with the repository owner's username
+    repo_name = 'WiGAs'  # Replace with the repository name
+    file_path = '/home/logo113/Desktop/IMAGE/'  # Replace with the path to the file in the repository
+
+
+    # GitHub access token (optional but might be needed for private repositories or to avoid rate limits)
+    access_token = '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'  # Replace with your GitHub access token
+
+    # Initialize Github object
+    if access_token:
+        g = Github(access_token)
+    else:
+        g = Github()
+
+    # Get the repository
+    repo = g.get_repo(f"{repo_owner}/{repo_name}")
+
+    last_updated = repo.pushed_at
+
+
+    path = r"/home/logo113/Desktop/git/IMAGE/"
+ 
+    ti_m = os.path.getmtime(path)
+    
+    m_ti = time.ctime(ti_m)
+    
+    # Using the timestamp string to create a 
+    # time object/structure
+    t_obj = time.strptime(m_ti)
+
+    # Transforming the time object to a timestamp 
+    # of ISO 8601 format
+    T_stamp = time.strftime("%Y-%m-%d %H:%M:%S", t_obj)
+    print(f"The file located at the path {path} was last modified at {T_stamp}")
+    print(f"Github Last updated: {last_updated}")
+    if str(last_updated)>T_stamp:
+        print("update")
+        return "update"
+        
+    else:
+        print("no_update")
+        return "no_update"
+    
+
+
 def update_code():
     cwd = os.getcwd()
     cwd=cwd.split('/workspace')
@@ -386,8 +440,17 @@ button1.pack(side=tk.LEFT)
 button2 = tk.Button(button_frame, text="Quit",command=close_window, width=9)
 button2.pack(side=tk.LEFT)
 
-button2 = tk.Button(button_frame, text="Update",command=update_code, width=9)
-button2.pack(side=tk.LEFT)
+update_status=check_github_status()
+button3 = tk.Button(button_frame, text="Update",command=update_code, width=9)
+if update_status=="update":
+    button3.pack(side=tk.LEFT)
+else:
+    button3.pack_forget()
+
+button4 = tk.Button(button_frame, text="check",command=check_github_status, width=9)
+# button4.pack(side=tk.LEFT)
+button4.pack_forget()
+
 
 root.mainloop()
 
