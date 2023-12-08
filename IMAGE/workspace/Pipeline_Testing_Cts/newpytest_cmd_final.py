@@ -424,6 +424,7 @@ while (retry==1):
             retry = test()
             print("retry_command")
             r1 = retry_command()
+            r2 = notexecutretry_command()
             os.kill(pid, signal.SIGTERM)
             print(" count="+str(count)+" retry_num="+str(retry_num)+" reboot_num="+str(reboot_num)+"notexecuteset_num="+ str(notexecuteset_num))
         elif (count < retry_num+1): # check retry run how many times
