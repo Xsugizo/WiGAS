@@ -171,7 +171,7 @@ def check_github_status():
     # GitHub repository details
     repo_owner = 'Xsugizo'  # Replace with the repository owner's username
     repo_name = 'WiGAs'  # Replace with the repository name
-    file_path = '/home/logo113/Desktop/IMAGE/'  # Replace with the path to the file in the repository
+    file_path = f'/home/{UsrName}/Desktop/IMAGE/'  # Replace with the path to the file in the repository
     api_url="https://api.github.com/repos/Xsugizo/WiGAS"
 
     all_info=requests.get(api_url).json()
@@ -194,7 +194,7 @@ def check_github_status():
     # last_updated = repo.pushed_at
 
 
-    path = r"/home/logo113/Desktop/git/IMAGE/workspace/"
+    path = f"/home/{UsrName}/Desktop/git/IMAGE/workspace/"
  
     ti_m = os.path.getmtime(path)
     
