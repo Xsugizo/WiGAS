@@ -14,6 +14,7 @@ from tkinter import messagebox
 from github import Github
 import requests
 from optparse import OptionParser
+from datetime import datetime, timedelta
 import re
 
 UsrName = subprocess.check_output('whoami')
@@ -206,13 +207,22 @@ def check_github_status():
     # time object/structure
     t_obj = time.strptime(m_ti)
     la_obj = time.strptime(ml_ti)
+   
     # Transforming the time object to a timestamp 
     # of ISO 8601 format
     T_stamp = time.strftime("%Y-%m-%d %H:%M:%S", t_obj)
+    
     L_stamp = time.strftime("%Y-%m-%d %H:%M:%S", la_obj)
+   
+    L_stamp=datetime.strptime(L_stamp,"%Y-%m-%d %H:%M:%S")
+    newTime=L_stamp+timedelta(hours=8)
+    
+    newTime = newTime.strftime("%Y-%m-%d %H:%M:%S")
+
+
     print(f"The file located at the path {path} was last modified at {T_stamp}")
-    print(f"Github Last updated: {L_stamp}")
-    if L_stamp>T_stamp:
+    print(f"Github Last updated: {newTime}")
+    if newTime>T_stamp:
         print("update")
         return "update"
         
@@ -283,7 +293,7 @@ frame = tk.Frame(root)
 frame.pack()
 
 # 創建標籤並添加到框架中
-label = tk.Label(frame, text="GMS Auto Test w/ Single Test V1", font = ('Bahnschrift',20,'bold'),pady=10)
+label = tk.Label(frame, text="GMS Auto Test w/ Single Test V2 20231212", font = ('Bahnschrift',20,'bold'),pady=10)
 label.pack(side=tk.TOP)
 
 # 創建一個框架
