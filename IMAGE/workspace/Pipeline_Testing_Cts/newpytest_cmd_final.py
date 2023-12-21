@@ -4,7 +4,7 @@ from re import X
 import time
 import os
 import signal
-from ctscheckY_single import test
+from ctscheckY_comp_pass_new_rule import test
 from pyautogui import hotkey,click,typewrite,press
 # from joblib import Parallel, delayed
 import subprocess
