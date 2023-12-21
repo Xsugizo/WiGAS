@@ -103,10 +103,10 @@ def firstII(cts):
     android_home = dirpath
     cts_command = android_home + "/android-cts/tools/cts-tradefed"
     shard_count = str(len(devices))
-    # command_list = [cts_command, "run", "cts", "--shard-count", shard_count]
+    command_list = [cts_command, "run", "cts", "--shard-count", shard_count]
     # command_list = [cts_command, "run", "cts --abi arm64-v8a -m CtsCameraTestCases", "--shard-count", shard_count]
     # command_list = [cts_command, "run", "cts --abi arm64-v8a -m CtsThemeHostTestCases", "--shard-count", shard_count]
-    command_list = [cts_command, "run", "cts --abi arm64-v8a -m CtsAppUsageHostTestCases", "--shard-count", shard_count]
+    # command_list = [cts_command, "run", "cts --abi arm64-v8a -m CtsAppUsageHostTestCases", "--shard-count", shard_count]
     for serial_number in devices:
         command_list += ["-s", serial_number]
     # subprocess.run(f"gnome-terminal -- bash -c '{command_list}'", shell=True)
