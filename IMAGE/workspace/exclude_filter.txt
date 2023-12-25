@@ -1,0 +1,1 @@
+--exclude-filter CtsCameraTestCases --exclude-filter CtsMediaProviderTranscodeTests 
