@@ -24,6 +24,8 @@ pid=""
 process_name=""
 UsrName = subprocess.check_output('whoami')
 UsrName = UsrName.decode().strip()
+CurrPath=os.getcwd()
+ParetPath=os.path.dirname(CurrPath)
 
 #list to string
 def listToString(s):
@@ -42,6 +44,7 @@ def listToString(s):
     return str1
 # get run cts command
 def cts_command():
+
     adb_devices= subprocess.check_output(["adb", "devices"])
     for i in adb_devices.split(b"\tdevice"):
         for ii in i.split(b"\n"):
@@ -59,21 +62,35 @@ def cts_command():
             ii=ii+1
         else:
             cmd=cmd+" -s "+ str(i)
+    print("cmd="+cmd)
+    with open(f'{ParetPath}/ExcludefilterOption.txt','r')as f:
+        testoption = f.read().split('/')
+        print("testoption= "+str(testoption))
+    
+    if 'exfilter' in testoption[0]:
+        print("add exfliter cmd")
+        with open(f'{ParetPath}/exclude_filter.txt','r') as file:
+            r3 = file.read()
+            print("r3="+r3)
+        file.close()
+        cmd=cmd+" "+r3
     return cmd
+
 cts = cts_command()
+print("cts="+cts)
 print("count="+str(len(devices)))
 
 
 
 # get retry command
 def retry_command():
-    with open(f'/home/{UsrName}/Desktop/IMAGE/workspace/Pipeline_Testing_Cts/retry1.sh') as file:
+    with open(f'{CurrPath}/retry1.sh') as file:
         r1 = file.read().replace('\n', '')
     file.close()
     return r1
 
 def notexecutretry_command():
-    with open(f'/home/{UsrName}/Desktop/IMAGE/workspace/Pipeline_Testing_Cts/notexecutretry1.sh') as file:
+    with open(f'{CurrPath}/notexecutretry1.sh') as file:
         r2 = file.read().replace('\n', '')
     file.close()
     return r2
@@ -110,9 +127,23 @@ def firstII(cts):
     for serial_number in devices:
         command_list += ["-s", serial_number]
     # subprocess.run(f"gnome-terminal -- bash -c '{command_list}'", shell=True)
-    print(listToString(command_list))
+    
+    with open(f'{ParetPath}/ExcludefilterOption.txt','r')as f:
+        ExcludefilterOption = f.read().split('/')
+        print("ExcludefilterOption= "+str(ExcludefilterOption))
+    
+    if 'exfilter' in ExcludefilterOption[0]:
+        print("add exfliter cmd")
+        with open(f'{ParetPath}/exclude_filter.txt','r') as file:
+            r3 = file.read()
+            print("r3="+r3)
+        file.close()
+        command_list=listToString(command_list)+" "+r3
+
+    # print(listToString(command_list))
+    print(command_list)
     # check =input('Please comfirm all devices have entered fastboot mode [y/n] ...')
-    p=subprocess.Popen(f"gnome-terminal -- bash -c '{listToString(command_list)}'", shell=True)
+    p=subprocess.Popen(f"gnome-terminal -- bash -c '{command_list}'", shell=True)
     p_pid=p.pid
     time.sleep(5)
     p_pid = subprocess.check_output(f"pgrep -l -u '{UsrName}'| grep cts-tradefed | tail -1", shell=True) # get the process id
@@ -336,7 +367,7 @@ def exit():
         
 
 runfre = []
-with open(f'/home/{UsrName}/Desktop/IMAGE/workspace/runfre.txt') as file:
+with open(f'{ParetPath}/runfre.txt') as file:
     for line in file.readlines():
         runfre.append(int(line))
 file.close()
@@ -382,7 +413,7 @@ print(reset_command)
 
 #retry or not: yes=1, no=0
 retry = 1
-with open(f'/home/{UsrName}/Desktop/IMAGE/workspace/RecordTestOption.txt','r')as f:
+with open(f'{ParetPath}/RecordTestOption.txt','r')as f:
     testoption = f.read().split('/')
 print("testoption= "+str(testoption))
 if 'est' in testoption:
@@ -403,7 +434,7 @@ else:
 
 while (retry==1):
 
-    os.chdir(f'/home/{UsrName}/Desktop/IMAGE/workspace/Pipeline_Testing_Cts') #ensure the path is correct
+    os.chdir(f'{CurrPath}') #ensure the path is correct
     print("count="+str(count)+" retry_num="+str(retry_num)+" reboot_num="+str(reboot_num)+" reset_num="+ str(reset_num)+"notexecuteset_num="+ str(notexecuteset_num))
 
     if (count<retry_num+reboot_num+notexecuteset_num+1): #retry+reboot time
@@ -561,9 +592,9 @@ while (retry==1):
     count = count + 1
     print("retry="+str(retry))
 
-os.chdir(f'/home/{UsrName}/Desktop/IMAGE/workspace/Pipeline_Testing_Cts')
+os.chdir(f'{CurrPath}')
 os.system('python3 latestfolder.py')
-os.chdir(f'/home/{UsrName}/Desktop/IMAGE/workspace/Pipeline_Testing_Cts')
+os.chdir(f'{CurrPath}')
 # os.system('python3 Auto_login.py')
 os.system('python3 finalsendmail.py')
 

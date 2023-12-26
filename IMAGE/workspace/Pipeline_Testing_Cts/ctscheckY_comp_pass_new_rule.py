@@ -338,12 +338,30 @@ def test():
         #     else:
         #         retry(session,action)
         # else:
-        with open(f'{CurrPath}/retry1.sh','w')as f:       
-            f.write("run retry --retry "+str(session)+" "+cmd+'\n')
-        f.close()
-        with open(f'{CurrPath}/notexecutretry1.sh','w')as f:       
-            f.write("run retry --retry "+str(session)+" "+"--retry-type NOT_EXECUTED "+cmd+'\n')
-        f.close()
+        with open(f'{ParetPath}/ExcludefilterOption.txt','r')as f:
+            ExcludefilterOption = f.read().split('/')
+            print("ExcludefilterOption= "+str(ExcludefilterOption))
+        
+        if 'exfilter' in ExcludefilterOption[0]:
+            print("add exfilter cmd")
+            with open(f'{ParetPath}/exclude_filter.txt') as file:
+                 ex_filter= file.read().replace('\n', '')
+            with open(f'{CurrPath}/retry1.sh','w')as f:       
+                f.write("run retry --retry "+str(session)+" "+cmd+" "+ex_filter+'\n')
+            f.close()
+            with open(f'{CurrPath}/notexecutretry1.sh','w')as f:       
+                f.write("run retry --retry "+str(session)+" "+"--retry-type NOT_EXECUTED "+cmd+" "+ex_filter+'\n')
+            f.close()
+        else:    
+            with open(f'{CurrPath}/retry1.sh','w')as f:       
+                f.write("run retry --retry "+str(session)+" "+cmd+'\n')
+            f.close()
+            with open(f'{CurrPath}/notexecutretry1.sh','w')as f:       
+                f.write("run retry --retry "+str(session)+" "+"--retry-type NOT_EXECUTED "+cmd+'\n')
+            f.close()
+        
+
+
     retry(session,'y')
     return ans
 
