@@ -11,7 +11,7 @@ from alive_progress import alive_bar
 import subprocess
 import time
 from tkinter import messagebox
-from github import Github
+# from github import Github
 import requests
 from optparse import OptionParser
 from datetime import datetime, timedelta
@@ -19,6 +19,9 @@ import re
 
 UsrName = subprocess.check_output('whoami')
 UsrName = UsrName.decode().strip()
+
+CurrPath=os.getcwd()
+ParetPath=os.path.dirname(CurrPath)
 
 
 # try : 
@@ -76,16 +79,25 @@ def select_StsImage():
 
 def start():
     
-    with open(f'/home/{UsrName}/Desktop/IMAGE/workspace/RecordOption.txt','w')as f:
+    with open(f'{CurrPath}/RecordOption.txt','w')as f:
         if cts.get()!='--':
             f.write('cts/')
         if gts.get()!='--':
             f.write('gts/')
         if sts.get()!='--':
             f.write('sts')
-    with open(f'/home/{UsrName}/Desktop/IMAGE/workspace/RecordTestOption.txt','w')as f:
+    with open(f'{CurrPath}/RecordTestOption.txt','w')as f: 
         if Single_Test.get()!='--':
             f.write('est')
+    with open(f'{CurrPath}/ExcludefilterOption .txt ','w')as f: #ExcludefilterOption .txt 
+        if excludefilter.get()!='--':
+            f.write('exfilter')
+    inputValue=textExample.get("1.0","end-1c").split('/')
+    with open(f'{CurrPath}/exclude_filter.txt','w')as f:
+        if excludefilter.get()!='--':
+            for line in inputValue:
+                f.write("--exclude-filter " +line+" ")
+
 
         
 
@@ -158,14 +170,22 @@ def start():
 
     # elif 'factoryreset' in r:
 
+def retrieve_input():
+    inputValue=textExample.get("1.0","end-1c").split('/')
+    with open(f'{CurrPath}/exclude_filter.txt','w')as f:
+        if excludefilter.get()!='--':
+            for line in inputValue:
+                f.write("--exclude-filter " +line+" ")
 
-# def show():
-#     # download()
-#     os.system(f'python pipeline.py')
-#     with alive_bar(16000) as bar:
-#         for _ in range(16000):
-#             time.sleep(.001)
-#             bar()
+
+def exclude_filter():
+    if excludefilter.get() =="exclude_filter":
+        textExample.pack()
+        l.pack()
+    if excludefilter.get() =="--":
+        l.pack_forget()
+        textExample.pack_forget()
+
 def check_github_status():
 
 
@@ -249,7 +269,7 @@ def close_window():
 root = tk.Tk()
 root.title("WiGAS")
 root.resizable(False, False)
-root.geometry('700x400')
+root.geometry('750x430')
 try:
     with open('CtsToolPath.txt','r') as f:
         CtsToolPath = f.read()
@@ -293,12 +313,14 @@ frame = tk.Frame(root)
 frame.pack()
 
 # 創建標籤並添加到框架中
-label = tk.Label(frame, text="GMS Auto Test w/ Single Test V2 20231212", font = ('Bahnschrift',20,'bold'),pady=10)
+label = tk.Label(frame, text="GMS Auto Test w/ Single Test V3 20231226", font = ('Bahnschrift',20,'bold'),pady=10)
 label.pack(side=tk.TOP)
 
 # 創建一個框架
 frame2 = tk.Frame(root)
 frame2.pack()
+
+
 
 # 創建三個 Checkbutton
 cts = tk.StringVar()
@@ -326,6 +348,23 @@ checkbutton_Single_Test = tk.Checkbutton(frame2, text="Enable Single Test",varia
 checkbutton_Single_Test.pack(side=tk.LEFT)
 checkbutton_Single_Test.deselect()
 
+
+excludefilter = tk.StringVar()
+checkbutton5 = tk.Checkbutton(frame2, text="Exclude Filter",variable=excludefilter,command=exclude_filter, onvalue='exclude_filter', offvalue='--',pady=1)
+checkbutton5.pack(side=tk.LEFT)
+checkbutton5.deselect()
+
+frame5 = tk.Frame(root)
+frame5.pack()
+frame5.place(x=20, y=132)
+
+l = tk.Label(frame5, text = "please help to input Exclude filter module name \n"+", Example CtsCameraTestCase/CtsMediaProviderTranscodeTests :")
+l.config(font =("Courier", 10))
+
+
+textExample = tk.Text(frame5, height=1.3)
+
+
 # 將 Checkbutton 水平置中
 frame2.pack(side=tk.TOP, fill=tk.X)
 
@@ -333,47 +372,48 @@ frame2.pack(side=tk.TOP, fill=tk.X)
 checkbutton1.config(width=9)
 checkbutton2.config(width=9)
 checkbutton3.config(width=9)
-checkbutton4.config(width=9)
+checkbutton4.config(width=15)
+checkbutton5.config(width=15)
 checkbutton_Single_Test.config(width=15)
 
 
 
 
 e_path1 = tk.Entry(root, textvariable=var1, width=42)
-e_path1.place(x=50, y=180)
+e_path1.place(x=50, y=200)
 
 b_select1 = tk.Button(root, text='Select CtsTool', command=select_CtsTool, width=10)
-b_select1.place(x=320, y=180)
+b_select1.place(x=400, y=200)
 
 f_path1 = tk.Entry(root, textvariable=var11, width=42)
-f_path1.place(x=50, y=210)
+f_path1.place(x=50, y=235)
 
 c_select1 = tk.Button(root, text='Select CtsImage', command=select_CtsImage, width=10)
-c_select1.place(x=320, y=210)
+c_select1.place(x=400, y=235)
 
 e_path2 = tk.Entry(root, textvariable=var2, width=42)
-e_path2.place(x=50, y=240)
+e_path2.place(x=50, y=270)
 
 b_select2 = tk.Button(root, text='Select GtsTool', command=select_GtsTool, width=10)
-b_select2.place(x=320, y=240)
+b_select2.place(x=400, y=270)
 
 f_path2 = tk.Entry(root, textvariable=var22, width=42)
-f_path2.place(x=50, y=270)
+f_path2.place(x=50, y=305)
 
 c_select2 = tk.Button(root, text='Select GtsImage', command=select_GtsImage, width=10)
-c_select2.place(x=320, y=270)
+c_select2.place(x=400, y=305)
 
 e_path3 = tk.Entry(root, textvariable=var3, width=42)
-e_path3.place(x=50, y=300)
+e_path3.place(x=50, y=340)
 
 b_select3 = tk.Button(root, text='Select StsTool', command=select_StsTool, width=10)
-b_select3.place(x=320, y=300)
+b_select3.place(x=400, y=340)
 
 f_path3 = tk.Entry(root, textvariable=var33, width=42)
-f_path3.place(x=50, y=330)
+f_path3.place(x=50, y=376)
 
 c_select3 = tk.Button(root, text='Select StsImage', command=select_StsImage, width=10)
-c_select3.place(x=320, y=330)
+c_select3.place(x=400, y=375)
 
 
 
@@ -466,8 +506,13 @@ else:
     button3.pack_forget()
 
 button4 = tk.Button(button_frame, text="check",command=check_github_status, width=9)
-# button4.pack(side=tk.LEFT)
+button4.pack(side=tk.LEFT)
 button4.pack_forget()
+
+button5 = tk.Button(button_frame, text="retrieve_input",command=retrieve_input, width=9)
+button5.pack(side=tk.LEFT)
+button5.pack_forget()
+
 
 
 root.mainloop()
