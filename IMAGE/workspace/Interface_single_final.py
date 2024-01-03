@@ -215,7 +215,7 @@ def check_github_status():
     # last_updated = repo.pushed_at
 
 
-    path = f"/home/{UsrName}/Desktop/git/IMAGE/workspace/"
+    path = f"/home/{UsrName}/Desktop/IMAGE/workspace/"
  
     ti_m = os.path.getmtime(path)
     
