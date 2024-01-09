@@ -27,6 +27,15 @@ def test():
     #change cmd path 
     os.chdir(path)
 
+    dut = []
+    adb_devices= subprocess.check_output(["adb", "devices"])
+    print(adb_devices)
+    for i in adb_devices.split(b"\tdevice"):
+        for ii in i.split(b"\n"):
+            ii=ii.decode('utf-8')
+            if  ii !=" " and ii not in "List of devices attached" :
+                dut.append(ii)
+
     #save result from l r into test.csv
     def save_and_read():
         test_session =[]
@@ -118,14 +127,15 @@ def test():
         fail_num =[]
         pass_num =[]
         s_num = []
+
         
-        productname= subprocess.check_output(["adb","shell","getprop","ro.product.name"])
-        finngerprint= subprocess.check_output(["adb","shell","getprop","ro.system.build.id"])
+        productname= subprocess.check_output(["adb","-s",dut[0],"shell","getprop","ro.product.name"])
+        finngerprint= subprocess.check_output(["adb","-s",dut[0],"shell","getprop","ro.system.build.id"])
         productname=productname.split(b"\n")
         productname=productname[0].decode("utf-8")
         finngerprint=finngerprint.split(b"\n")
         finngerprint=finngerprint[0].decode("utf-8")
-        # print(productname,finngerprint)
+        print("productname="+productname,"finngerprint"+finngerprint)
         target=finngerprint+"_"+productname
         print("target="+target)
         print(len(image))
@@ -211,8 +221,8 @@ def test():
     
     def retry_or_not_retry(fail,test_moudle,test_result,image,devices):
 
-        productname= subprocess.check_output(["adb","shell","getprop","ro.product.name"])
-        finngerprint= subprocess.check_output(["adb","shell","getprop","ro.system.build.id"])
+        productname= subprocess.check_output(["adb","-s",dut[0],"shell","getprop","ro.product.name"])
+        finngerprint= subprocess.check_output(["adb","-s",dut[0],"shell","getprop","ro.system.build.id"])
         productname=productname.split(b"\n")
         productname=productname[0].decode("utf-8")
         finngerprint=finngerprint.split(b"\n")
@@ -364,6 +374,7 @@ def test():
 
     retry(session,'y')
     return ans
+
 
 
 
