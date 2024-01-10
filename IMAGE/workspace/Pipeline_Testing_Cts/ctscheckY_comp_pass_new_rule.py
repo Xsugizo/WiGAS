@@ -140,59 +140,88 @@ def test():
         print("target="+target)
         print(len(image))
         #count the project and image in l r list
-        for i in range(len(image)-1,0,-1):
-            project_name = image[i]+"_"+devices[i]
-            # print("project_name="+project_name)
-            if(project_name==target):
-                test_count.insert(pro_num,image[i]+"_"+devices[i])
-                project_count.insert(pro_num,count_num)
-                fail_num.insert(pro_num,fail[i])
-                pass_num.insert(pro_num,test_pass[i])
-                s_num.insert(pro_num,session[i])
-                break
-            else:
-                continue
-        for i in range(len(image)-1,0,-1):
-            project_name = image[i]+"_"+devices[i]
-
-            # if(len(test_count)==0):
-            #     test_count.insert(pro_num,project_name)
-            #     project_count.insert(pro_num,count_num)
-            #     fail_num.insert(pro_num,fail[i])
-            #     pass_num.insert(pro_num,test_pass[i])
-            #     s_num.insert(pro_num,session[i])
-            #     pro_num +=1
-            #     continue
-
-            if(len(test_count)==0):
-                # test_count.insert(pro_num,image[-1]+"_"+devices[-1])
-                # project_count.insert(pro_num,count_num)
-                # fail_num.insert(pro_num,fail[-1])
-                # pass_num.insert(pro_num,test_pass[-1])
-                # s_num.insert(pro_num,session[-1])
-                # pro_num +=1
-                continue
-
-            for j in range(len(test_count)):
-                if(project_name==test_count[j]):
-                    project_count[j] += 1
-
-                    # if(fail[i]<=fail_num[j]):
-                    if(test_pass[i]>=pass_num[j]):
-                        fail_num[j] = fail[i]
-                        pass_num[j] = test_pass[i]
-                        s_num[j] = session[i]
-                        
+        if len(image)!=1 :
+            for i in range(len(image)-1,0,-1):
+                project_name = image[i]+"_"+devices[i]
+                print("project_name="+project_name)
+                if(project_name==target):
+                    test_count.insert(pro_num,image[i]+"_"+devices[i])
+                    project_count.insert(pro_num,count_num)
+                    fail_num.insert(pro_num,fail[i])
+                    pass_num.insert(pro_num,test_pass[i])
+                    s_num.insert(pro_num,session[i])
                     break
+                else:
+                    continue
+        else:
+            project_name = image[0]+"_"+devices[0]
+            print("project_name="+project_name)
+            if(project_name==target):
+                test_count.insert(pro_num,image[0]+"_"+devices[0])
+                project_count.insert(pro_num,count_num)
+                fail_num.insert(pro_num,fail[0])
+                pass_num.insert(pro_num,test_pass[0])
+                s_num.insert(pro_num,session[0])
+            else:
+                pass
+        
+        if len(image)!=1 :
+            for i in range(len(image)-1,0,-1):
+                project_name = image[i]+"_"+devices[i]
 
-
-                # elif(j == len(test_count)-1):
+                # if(len(test_count)==0):
                 #     test_count.insert(pro_num,project_name)
                 #     project_count.insert(pro_num,count_num)
                 #     fail_num.insert(pro_num,fail[i])
                 #     pass_num.insert(pro_num,test_pass[i])
                 #     s_num.insert(pro_num,session[i])
-                #     pro_num +=1   
+                #     pro_num +=1
+                #     continue
+
+                if(len(test_count)==0):
+                    # test_count.insert(pro_num,image[-1]+"_"+devices[-1])
+                    # project_count.insert(pro_num,count_num)
+                    # fail_num.insert(pro_num,fail[-1])
+                    # pass_num.insert(pro_num,test_pass[-1])
+                    # s_num.insert(pro_num,session[-1])
+                    # pro_num +=1
+                    continue
+
+                for j in range(len(test_count)):
+                    if(project_name==test_count[j]):
+                        project_count[j] += 1
+
+                        # if(fail[i]<=fail_num[j]):
+                        if(test_pass[i]>=pass_num[j]):
+                            fail_num[j] = fail[i]
+                            pass_num[j] = test_pass[i]
+                            s_num[j] = session[i]
+                            
+                        break
+
+
+                    # elif(j == len(test_count)-1):
+                    #     test_count.insert(pro_num,project_name)
+                    #     project_count.insert(pro_num,count_num)
+                    #     fail_num.insert(pro_num,fail[i])
+                    #     pass_num.insert(pro_num,test_pass[i])
+                    #     s_num.insert(pro_num,session[i])
+                    #     pro_num +=1
+        else:
+                project_name = image[0]+"_"+devices[0]
+                if(len(test_count)==0):
+                    pass
+                for j in range(len(test_count)):
+                    if(project_name==test_count[j]):
+                        project_count[j] += 1
+
+                        # if(fail[i]<=fail_num[j]):
+                        if(test_pass[0]>=pass_num[j]):
+                            fail_num[j] = fail[0]
+                            pass_num[j] = test_pass[0]
+                            s_num[j] = session[0]
+                            
+                        break
 
         print("test_count="+str(test_count)+"project_count="+str(project_count)+"fail_num="+str(fail_num)+"s_num="+str(s_num)+"pass_num="+str(pass_num))
         return test_count,project_count,fail_num,s_num,pass_num
@@ -229,22 +258,37 @@ def test():
         finngerprint=finngerprint[0].decode("utf-8")
         target=finngerprint+"_"+productname
         
-        for i in range(len(image)-1,0,-1):
+        if len(image)!=1:
+            for i in range(len(image)-1,0,-1):
 
-            project_name = image[i]+"_"+devices[i]
+                project_name = image[i]+"_"+devices[i]
+                # print("retry_or_not_retry project_name="+project_name)
+
+                # print("test_moudle[-1]="+str(test_moudle[-1])+"test_result[-1]="+str(test_result[-1])+"fail="+str(fail[-1]))
+                if(project_name==target):
+                    if (test_moudle[i]==test_result[i] and fail[i]==0):
+                        print("stop_retry")
+                        return "stop_retry"
+                    else:
+                        print("keep_retry")
+                        return "keep_retry"
+                    break
+                else:
+                    continue
+        else:
+            project_name = image[0]+"_"+devices[0]
             # print("retry_or_not_retry project_name="+project_name)
 
             # print("test_moudle[-1]="+str(test_moudle[-1])+"test_result[-1]="+str(test_result[-1])+"fail="+str(fail[-1]))
             if(project_name==target):
-                if (test_moudle[i]==test_result[i] and fail[i]==0):
+                if (test_moudle[0]==test_result[0] and fail[0]==0):
                     print("stop_retry")
                     return "stop_retry"
                 else:
                     print("keep_retry")
                     return "keep_retry"
-                break
             else:
-                continue
+                pass
 
 
 
@@ -377,4 +421,4 @@ def test():
 
 
 
-
+test()
