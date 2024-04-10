@@ -49,8 +49,9 @@ def cts_command():
     for i in adb_devices.split(b"\tdevice"):
         for ii in i.split(b"\n"):
             if  ii != b"" and ii not in b"List of devices attached" :
-                x = ii.decode("utf-8")
-                devices.append(x)
+                 if  b"unauthorized" not in ii and b"offline" not in ii: 
+                    x = ii.decode("utf-8")
+                    devices.append(x)
                 # devices= yaqingtest.renewdevices(devices)
     coun=str(len(devices)) 
     ii=0
