@@ -173,7 +173,7 @@ def clean():
     # target = "/home/logo113/Desktop/IMAGE/workspace/Pipeline_Testing/11_r10/android-cts-11_r10-linux_x86-arm/android-cts/results/temp"
     for i in folder:    
         if i != folder[-1]:
-            shutil.move(i, target)   
+            shutil.copy(i, target)   
     print("Over clean() ...")
 # retry command after finishing CTS0
 def retry_time(r1):
