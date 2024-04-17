@@ -173,7 +173,16 @@ def clean():
     # target = "/home/logo113/Desktop/IMAGE/workspace/Pipeline_Testing/11_r10/android-cts-11_r10-linux_x86-arm/android-cts/results/temp"
     for i in folder:    
         if i != folder[-1]:
-            shutil.copy(i, target)   
+            print("folder name ="+os.path.basename(i))
+            if os.path.isdir(target+'/'+os.path.basename(i)):
+                print(i, 'exists in the results/temp !')
+                shutil.rmtree(target+'/'+os.path.basename(i))
+                print(i, 'in android-cts/results/temp has been removed!')
+                shutil.move(i, target)
+                print(i, 'has been moved!')
+            else:
+                shutil.move(i, target)
+                print(i, 'has been moved!')
     print("Over clean() ...")
 # retry command after finishing CTS0
 def retry_time(r1):
