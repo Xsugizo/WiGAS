@@ -26,7 +26,7 @@ retry_num=runfre[0]
 reboot_num=runfre[1]
 reset_num=runfre[2]
 notexecuteset_num=runfre[3]
-subjectcontent='WiGAS Final Report with retry_num='+retry_num+' reboot_num='+reboot_num+' notexecuteset_num='+ notexecuteset_num
+subjectcontent='WiGAS Final Report with retry_num='+str(retry_num)+' reboot_num='+str(reboot_num)+' notexecuteset_num='+ str(notexecuteset_num)
 
 
 # 設置SMTP伺服器地址和端口號
