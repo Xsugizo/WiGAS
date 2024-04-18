@@ -36,7 +36,7 @@ smtp_port = 587
 # 設置發件人、收件人、主題
 from_addr = 'Ian_H_Chang@wistron.com'
 to_addr = ['Ian_H_Chang@wistron.com','Jonathan_Tung@wistron.com','Jany_Chen@wistron.com','Vicky_Chen@wistron.com']
-subject = 'WiGAS Final Report'
+subject = subjectcontent
 
 # 創建MIMEMultipart對象，並設置發件人、收件人、主題
 msg = MIMEMultipart()
