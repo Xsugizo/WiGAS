@@ -82,6 +82,8 @@ def start():
     with open(f'{CurrPath}/RecordOption.txt','w')as f:
         if cts.get()!='--':
             f.write('cts/')
+        if gsi.get()!='--':
+            f.write('gsi/')
         if gts.get()!='--':
             f.write('gts/')
         if sts.get()!='--':
@@ -128,6 +130,16 @@ def start():
             r = f.read().split('/')
         print(r)
         if 'cts' in r:
+            dirpath = f'/home/{UsrName}/Desktop/IMAGE/'
+            for root,dirs,files in os.walk(dirpath):
+                for dir in dirs:
+                    if dir.find("Pipeline_Testing_Cts")!=-1:
+                        print(os.path.join(root,dir))
+                        dirpath = os.path.join(root,dir)
+                        print(dirpath)
+                        os.chdir(dirpath)
+                        os.system('./jen_single_final.sh')
+        if 'gsi' in r:
             dirpath = f'/home/{UsrName}/Desktop/IMAGE/'
             for root,dirs,files in os.walk(dirpath):
                 for dir in dirs:
@@ -269,7 +281,7 @@ def close_window():
 root = tk.Tk()
 root.title("WiGAS")
 root.resizable(False, False)
-root.geometry('750x430')
+root.geometry('900x460')
 try:
     with open('CtsToolPath.txt','r') as f:
         CtsToolPath = f.read()
@@ -313,7 +325,7 @@ frame = tk.Frame(root)
 frame.pack()
 
 # 創建標籤並添加到框架中
-label = tk.Label(frame, text="GMS Auto Test w/ Single Test V3 20240418", font = ('Bahnschrift',20,'bold'),pady=10)
+label = tk.Label(frame, text="GMS Auto Test w/ Single Test V3 20240607", font = ('Bahnschrift',20,'bold'),pady=10)
 label.pack(side=tk.TOP)
 
 # 創建一個框架
@@ -327,6 +339,11 @@ cts = tk.StringVar()
 checkbutton1 = tk.Checkbutton(frame2, text="CTS",variable=cts, onvalue='CTS', offvalue='--',pady=1)
 checkbutton1.pack(side=tk.LEFT)
 checkbutton1.deselect()
+
+gsi = tk.StringVar()
+checkbutton6 = tk.Checkbutton(frame2, text="CTS_on_GSI",variable=gsi, onvalue='CTS_on_GSI', offvalue='--',pady=1)
+checkbutton6.pack(side=tk.LEFT)
+checkbutton6.deselect()
 
 gts = tk.StringVar()
 checkbutton2 = tk.Checkbutton(frame2, text="GTS",variable=gts, onvalue='GTS', offvalue='--',pady=1)
@@ -374,6 +391,7 @@ checkbutton2.config(width=9)
 checkbutton3.config(width=9)
 checkbutton4.config(width=15)
 checkbutton5.config(width=15)
+checkbutton6.config(width=15)
 checkbutton_Single_Test.config(width=15)
 
 
