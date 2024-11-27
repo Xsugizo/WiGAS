@@ -26,7 +26,7 @@ def test():
     image ='adb devices |  tail -n +2 |  cut -sf 1 |  xargs -IX adb -s X shell getprop ro.odm.build.fingerprint'
     #change cmd path 
     os.chdir(path)
-
+    print("test() CurrPath="+path)
     dut = []
     adb_devices= subprocess.check_output(["adb", "devices"])
     print(adb_devices)
@@ -35,7 +35,6 @@ def test():
             ii=ii.decode('utf-8')
             if  ii !=" " and ii not in "List of devices attached" :
                 dut.append(ii)
-
     #save result from l r into test.csv
     def save_and_read():
         test_session =[]
@@ -45,7 +44,18 @@ def test():
         test_result =[]
         test_image =[]
         test_devices = []
-        output = os.popen('./cts-tradefed l r').read()
+        # output = os.popen('./cts-tradefed l r').read()
+        process = subprocess.Popen(
+            ["./cts-tradefed", "l", "r"],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+
+        # Send input if required
+        output, stderr = process.communicate()
+        # print("output")
         file = open("test_file.csv","w")
         file.write(output)
         file.close()
@@ -135,7 +145,7 @@ def test():
         productname=productname[0].decode("utf-8")
         finngerprint=finngerprint.split(b"\n")
         finngerprint=finngerprint[0].decode("utf-8")
-        print("productname="+productname,"finngerprint"+finngerprint)
+        print("productname="+productname,"finngerprint="+finngerprint)
         target=finngerprint+"_"+productname
         print("target="+target)
         print(len(image))
@@ -420,6 +430,6 @@ def test():
     retry(session,'y')
     return ans
 
-
+# test()
 
 
