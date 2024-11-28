@@ -273,6 +273,8 @@ def update_code():
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, cwd=cwd[0])
     output, unused_err = process.communicate()
     print(output)
+    command='chmod -R 777 *'
+    os.popen(command)
     root.destroy()
 
 def close_window():
