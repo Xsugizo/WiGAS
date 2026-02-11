@@ -139,6 +139,17 @@ def start():
                         print(dirpath)
                         os.chdir(dirpath)
                         os.system('./jen_single_final.sh')
+
+        if 'ctssystem' in r:
+            dirpath = f'/home/{UsrName}/Desktop/IMAGE/'
+            for root,dirs,files in os.walk(dirpath):
+                for dir in dirs:
+                    if dir.find("Pipeline_Testing_Cts")!=-1:
+                        print(os.path.join(root,dir))
+                        dirpath = os.path.join(root,dir)
+                        print(dirpath)
+                        os.chdir(dirpath)
+                        os.system('./jen_single_final_ctssystem.sh')
         if 'gsi' in r:
             dirpath = f'/home/{UsrName}/Desktop/IMAGE/'
             for root,dirs,files in os.walk(dirpath):
@@ -327,7 +338,7 @@ frame = tk.Frame(root)
 frame.pack()
 
 # 創建標籤並添加到框架中
-label = tk.Label(frame, text="GMS Auto Test w/ Single Test V3 20250808", font = ('Bahnschrift',20,'bold'),pady=10)
+label = tk.Label(frame, text="GMS Auto Test w/ Single Test V4 20260211 with cts-system function", font = ('Bahnschrift',20,'bold'),pady=10)
 label.pack(side=tk.TOP)
 
 # 創建一個框架
@@ -341,6 +352,11 @@ cts = tk.StringVar()
 checkbutton1 = tk.Checkbutton(frame2, text="CTS",variable=cts, onvalue='CTS', offvalue='--',pady=1)
 checkbutton1.pack(side=tk.LEFT)
 checkbutton1.deselect()
+
+ctssystem = tk.StringVar()
+checkbutton6 = tk.Checkbutton(frame2, text="CTS-System",variable=ctssystem, onvalue='CTS-System', offvalue='--',pady=1)
+checkbutton6.pack(side=tk.LEFT)
+checkbutton6.deselect()
 
 gsi = tk.StringVar()
 checkbutton6 = tk.Checkbutton(frame2, text="CTS_on_GSI",variable=gsi, onvalue='CTS_on_GSI', offvalue='--',pady=1)
@@ -518,12 +534,12 @@ button1.pack(side=tk.LEFT)
 button2 = tk.Button(button_frame, text="Quit",command=close_window, width=9)
 button2.pack(side=tk.LEFT)
 
-update_status=check_github_status()
-button3 = tk.Button(button_frame, text="Update",command=update_code, width=9)
-if update_status=="update":
-    button3.pack(side=tk.LEFT)
-else:
-    button3.pack_forget()
+# update_status=check_github_status()
+# button3 = tk.Button(button_frame, text="Update",command=update_code, width=9)
+# if update_status=="update":
+#     button3.pack(side=tk.LEFT)
+# else:
+#     button3.pack_forget()
 
 button4 = tk.Button(button_frame, text="check",command=check_github_status, width=9)
 button4.pack(side=tk.LEFT)
