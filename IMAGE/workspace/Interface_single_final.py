@@ -82,8 +82,8 @@ def start():
     with open(f'{CurrPath}/RecordOption.txt','w')as f:
         if cts.get()!='--':
             f.write('cts/')
-        if gsi.get()!='--':
-            f.write('gsi/')
+        if ctssystem.get()!='--':
+            f.write('ctssystem/')
         if gts.get()!='--':
             f.write('gts/')
         if sts.get()!='--':
@@ -354,9 +354,9 @@ checkbutton1.pack(side=tk.LEFT)
 checkbutton1.deselect()
 
 ctssystem = tk.StringVar()
-checkbutton6 = tk.Checkbutton(frame2, text="CTS-System",variable=ctssystem, onvalue='CTS-System', offvalue='--',pady=1)
-checkbutton6.pack(side=tk.LEFT)
-checkbutton6.deselect()
+checkbutton7 = tk.Checkbutton(frame2, text="CTS-System",variable=ctssystem, onvalue='CTS-System', offvalue='--',pady=1)
+checkbutton7.pack(side=tk.LEFT)
+checkbutton7.deselect()
 
 gsi = tk.StringVar()
 checkbutton6 = tk.Checkbutton(frame2, text="CTS_on_GSI",variable=gsi, onvalue='CTS_on_GSI', offvalue='--',pady=1)
@@ -410,6 +410,7 @@ checkbutton3.config(width=9)
 checkbutton4.config(width=15)
 checkbutton5.config(width=15)
 checkbutton6.config(width=15)
+checkbutton7.config(width=15)
 checkbutton_Single_Test.config(width=15)
 
 
