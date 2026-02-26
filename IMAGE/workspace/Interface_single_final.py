@@ -338,7 +338,7 @@ frame = tk.Frame(root)
 frame.pack()
 
 # 創建標籤並添加到框架中
-label = tk.Label(frame, text="GMS Auto Test w/ Single Test V4 20260211 with cts-system function", font = ('Bahnschrift',20,'bold'),pady=10)
+label = tk.Label(frame, text="GMS Auto Test w/ Single Test V4 20260226 with cts-system function", font = ('Bahnschrift',20,'bold'),pady=10)
 label.pack(side=tk.TOP)
 
 # 創建一個框架
@@ -553,5 +553,6 @@ button5.pack_forget()
 
 
 root.mainloop()
+
 
 
