@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>資訊判讀小遊戲</title>
+<style>
+
+body {
+
+  font-family: sans-serif;
+
+  text-align: center;
+
+  background: #f1f5f9;
+
+  margin: 0;
+
+  padding: 20px;
+
+}
+
+.hidden {
+
+  display: none;
+
+}
+
+.card {
+
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 15px;
+
+  margin: 20px auto;
+
+  width: 90%;
+
+  max-width: 600px;
+
+}
+
+.option-btn {
+
+  display: block;
+
+  width: 80%;
+
+  margin: 10px auto;
+
+  padding: 15px;
+
+  font-size: 18px;
+
+  border-radius: 10px;
+
+  border: none;
+
+  background: #4caf50;
+
+  color: white;
+
+}
+
+#feedback-box {
+
+  margin-top: 20px;
+
+  padding: 15px;
+
+  border-radius: 10px;
+
+  background: #e0f7fa;
+
+}
+</style>
+</head>
+<body>
+<!-- 開始畫面 -->
+<div id="screen-start">
+<h1>資訊判讀小遊戲</h1>
+<button id="start-btn">開始遊戲</button>
+</div>
+<!-- 遊戲畫面 -->
+<div id="screen-playing" class="hidden">
+<div id="stats-bar">
+
+    分數：<span id="score-display">0</span>｜
+
+    時間：<span id="timer-display">0s</span>
+</div>
+<div class="card">
+<div id="q-number"></div>
+<p id="question-text"></p>
+<button class="option-btn" onclick="checkAnswer('reliable')">可信</button>
+<button class="option-btn" onclick="checkAnswer('verify')">需查證</button>
+<button class="option-btn" onclick="checkAnswer('trap')">陷阱</button>
+<div id="feedback-box" class="hidden"></div>
+</div>
+</div>
+<!-- 結果畫面 -->
+<div id="screen-result" class="hidden">
+<h2>遊戲結束</h2>
+<p>分數：<span id="final-score"></span></p>
+<p>時間：<span id="final-time"></span> 秒</p>
+<button id="restart-btn">再玩一次</button>
+</div>
+<script>
+
+const CARDS_DATA = [
+
+      { id: 1, text: "國立故宮博物院官網介紹：「翠玉白菜原是嫁妝，象徵新娘的清白與多子多孫。」", type: "reliable", reason: "來自官方網站，資訊透明且語氣中性。" },
+      { id: 2, text: "中央氣象署發布：週五低溫降至 12 度，請注意保暖。", type: "reliable", reason: "政府氣象單位發布，具有公共服務權威。" },
+      { id: 3, text: "衛福部宣導：正確洗手五步驟為「濕、搓、沖、捧、擦」。", type: "reliable", reason: "正式衛生單位提供的衛教知識。" },
+      { id: 4, text: "限時 24 小時！點擊連結領取永久免費 LINE 貼圖。", type: "trap", reason: "用「限時、免費」當誘餌，是典型的網路陷阱。" },
+      { id: 5, text: "恭喜中獎！請輸入身分證字號與地址，以便寄送中獎手機。", type: "trap", reason: "要求提供個人私密資料，百分之百是詐騙。" },
+      { id: 6, text: "每天喝鹽水可以清除體內所有毒素，不用看醫生。", type: "trap", reason: "誇大醫療效果且來源不明，會耽誤就醫。" },
+      { id: 7, text: "剛才台北發生大地震，天佑台灣！大家還好嗎？", type: "verify", reason: "需查證官方資訊，避免誤傳。" },
+      { id: 8, text: "手機電量剩 10% 時輻射會增加千倍，傷大腦。", type: "verify", reason: "需查證科學數據。" },
+      { id: 9, text: "快訊！因颱風逼近，南部各縣市已宣布明天停班停課。", type: "verify", reason: "需查證政府公告。" },
+      { id: 10, text: "研究驚爆：喝一杯手搖飲等於自我毀滅！", type: "trap", reason: "過度誇大，屬假資訊。" }
+
+];
+
+let index = 0, score = 0, timer = 0, t;
+
+function startGame() {
+
+  index = 0;
+
+  score = 0;
+
+  timer = 0;
+
+  document.getElementById('screen-start').classList.add('hidden');
+
+  document.getElementById('screen-playing').classList.remove('hidden');
+
+  t = setInterval(() => {
+
+    timer++;
+
+    document.getElementById('timer-display').innerText = timer + "s";
+
+  }, 1000);
+
+  showQ();
+
+}
+
+function showQ() {
+
+  let q = CARDS_DATA[index];
+
+  document.getElementById('question-text').innerText = q.text;
+
+  document.getElementById('q-number').innerText = `第 ${index+1} 題`;
+
+}
+
+function checkAnswer(type) {
+
+  let q = CARDS_DATA[index];
+
+  if (q.type === type) score++;
+
+  let fb = document.getElementById('feedback-box');
+
+  fb.classList.remove('hidden');
+
+  fb.innerText = q.reason;
+
+  setTimeout(() => {
+
+    fb.classList.add('hidden');
+
+    index++;
+
+    if (index < CARDS_DATA.length) {
+
+      showQ();
+
+    } else {
+
+      endGame();
+
+    }
+
+  }, 1500);
+
+}
+
+function endGame() {
+
+  clearInterval(t);
+
+  document.getElementById('screen-playing').classList.add('hidden');
+
+  document.getElementById('screen-result').classList.remove('hidden');
+
+  document.getElementById('final-score').innerText = score;
+
+  document.getElementById('final-time').innerText = timer;
+
+}
+
+document.getElementById('start-btn').onclick = startGame;
+
+document.getElementById('restart-btn').onclick = startGame;
+</script>
+</body>
+</html>
+ 
